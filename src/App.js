@@ -23,8 +23,8 @@ class App extends Component {
 }
 
 class Table extends Component {
-  routeRows = () => {
-    return DATA.routes.map((route, idx) => {
+  routeRows = (routeList) => {
+    return routeList.map((route, idx) => {
       return (
         <tr key={idx}>
           <td>{route.airline}</td>
@@ -35,10 +35,22 @@ class Table extends Component {
     });
   };
 
+  humanizedRoutes = () => {
+    const newRoutes = [...DATA.routes];
+
+    newRoutes.forEach((route) => {
+      route.airline = DATA.getAirlineById(route.airline).name;
+      route.src = DATA.getAirportByCode(route.src).name;
+      route.dest = DATA.getAirportByCode(route.dest).name;
+    })
+
+    return newRoutes;
+  }
+
   state = {
-    routes: this.routeRows(),
+    routes: this.routeRows(this.humanizedRoutes()),
   };
-  
+
   render() {
     return (
       <div>
