@@ -2,10 +2,24 @@ import React, { Component } from 'react';
 import './App.css';
 
 import DATA from './data.js';
-// import Table from './components/Table';
+import Table from './components/Table';
 
 class App extends Component {
+  formatValue = (property, value) => {
+    if (property === 'airline') return DATA.getAirlineById(value).name;
+
+    return DATA.getAirportByCode(value).name;
+  };
+
   render() {
+    const columns = [
+      { name: 'Airline', property: 'airline' },
+      { name: 'Source Airport', property: 'src' },
+      { name: 'Destination Airport', property: 'dest' },
+    ];
+
+    const routeRows = DATA.routes;
+  
     return (
       <div className="app">
         <header className="header">
@@ -15,57 +29,16 @@ class App extends Component {
           <p>
             Welcome to the app!
           </p>
-          <Table />
+          <Table
+            className='routes-table'
+            columns={columns}
+            rows={routeRows}
+            format={this.formatValue}
+          />
         </section>     
       </div>
     );
   }
 }
 
-class Table extends Component {
-  routeRows = (routeList) => {
-    return routeList.map((route, idx) => {
-      return (
-        <tr key={idx}>
-          <td>{route.airline}</td>
-          <td>{route.src}</td>
-          <td>{route.dest}</td>
-        </tr>
-      )
-    });
-  };
-
-  humanizedRoutes = () => {
-    const newRoutes = [...DATA.routes];
-
-    newRoutes.forEach((route) => {
-      route.airline = DATA.getAirlineById(route.airline).name;
-      route.src = DATA.getAirportByCode(route.src).name;
-      route.dest = DATA.getAirportByCode(route.dest).name;
-    })
-
-    return newRoutes;
-  }
-
-  state = {
-    routes: this.routeRows(this.humanizedRoutes()),
-  };
-
-  render() {
-    return (
-      <div>
-        <table className='table'>
-          <thead>
-            <td>Airline</td>
-            <td>Source</td>
-            <td>Destination</td>
-          </thead>
-          <tbody>
-            {this.state.routes}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
 export default App;
