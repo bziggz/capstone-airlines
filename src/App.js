@@ -61,6 +61,8 @@ class App extends Component {
         return [route.src, route.dest].includes(airport.code)
       });
     });
+
+    const allRoutesSelected = this.state.airport === 'all' && this.state.airline === 'all';
   
     return (
       <div className="app">
@@ -90,6 +92,7 @@ class App extends Component {
               value={this.state.airport}
               onSelect={this.airportSelected}
             />
+            <button onClick={this.clearFilters} disabled={allRoutesSelected}>Show All Routes</button>
           </p>
           <Table
             className='routes-table'
