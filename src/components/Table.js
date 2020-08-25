@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 
-import DATA from '../data.js';
-
 class Table extends Component {
   static defaultProps = {
-    format(property, value) { value },
+    format: (property, value) => value,
     perPage: 25,
   }
 
@@ -67,7 +65,7 @@ class Table extends Component {
               disabled={this.state.page === 0} 
               onClick={this.previousPage}
             >
-              Previous
+              Previous Page
             </button>
           </p>
           <p>
@@ -76,7 +74,7 @@ class Table extends Component {
               disabled={pageEnd >= this.props.rows.length} 
               onClick={this.nextPage}
             >
-              Next
+              Next Page
             </button>
           </p>
         </div>
